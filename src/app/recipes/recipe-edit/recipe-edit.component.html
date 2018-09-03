@@ -1,0 +1,8 @@
+<p *ngIf="editMode;else new">
+  editing recipe {{id}}
+</p>
+<ng-template #new>
+  <p>
+    new recipe
+  </p>
+</ng-template>
