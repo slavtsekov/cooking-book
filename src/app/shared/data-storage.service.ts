@@ -6,18 +6,28 @@ import { RecipeService } from '../recipes/recipe.service';
 import { Recipe } from '../recipes/recipe.model';
 import { ShoppingListService } from '../shopping-list/shopping-list.service';
 import { Ingredient } from './ingredient.model';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 
 export class DataStorageService {
-    constructor(private http: HttpClient, private recipeService: RecipeService, private shoppingListService: ShoppingListService) {}
+    constructor(
+        private http: HttpClient,
+        private recipeService: RecipeService,
+        private shoppingListService: ShoppingListService,
+        private authService: AuthService
+    ) {}
 
     storeRecipes() {
-        return this.http.put('https://ng-cooking-book-37d0f.firebaseio.com/recipes.json', this.recipeService.getRecipes());
+        const token = this.authService.getToken();
+
+        return this.http.put('https://ng-cooking-book-37d0f.firebaseio.com/recipes.json?auth=' + token, this.recipeService.getRecipes());
     }
 
     getRecipes() {
-        return this.http.get('https://ng-cooking-book-37d0f.firebaseio.com/recipes.json').pipe(
+        const token = this.authService.getToken();
+
+        return this.http.get('https://ng-cooking-book-37d0f.firebaseio.com/recipes.json?auth=' + token).pipe(
             map((data: Recipe[]) => {
                 for (const recipe of data) {
                     if (!recipe['ingredients']) {
@@ -32,12 +42,18 @@ export class DataStorageService {
     }
 
     storeShoppingList() {
-        return this.http.put('https://ng-cooking-book-37d0f.firebaseio.com/shopping-list.json', this.shoppingListService.getIngredients());
+        const token = this.authService.getToken();
+        const putUrl = 'https://ng-cooking-book-37d0f.firebaseio.com/shopping-list.json?auth=' + token;
+
+        return this.http.put(putUrl, this.shoppingListService.getIngredients());
     }
 
     getShoppingList() {
-        return this.http.get('https://ng-cooking-book-37d0f.firebaseio.com/shopping-list.json').subscribe((data: Ingredient[]) => {
-            this.shoppingListService.setIngredients(data);
-        });
+        const token = this.authService.getToken();
+
+        return this.http.get('https://ng-cooking-book-37d0f.firebaseio.com/shopping-list.json?auth=' + token)
+            .subscribe((data: Ingredient[]) => {
+                this.shoppingListService.setIngredients(data);
+            });
     }
 }
