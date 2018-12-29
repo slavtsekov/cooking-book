@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { DataStorageService } from '../shared/data-storage.service';
 import { Recipe } from '../recipes/recipe.model';
 import { Ingredient } from '../shared/ingredient.model';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -9,7 +10,7 @@ import { Ingredient } from '../shared/ingredient.model';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
-  constructor(private dataStorageService: DataStorageService) {}
+  constructor(private dataStorageService: DataStorageService, private authService: AuthService) {}
 
   onSaveData() {
     this.dataStorageService.storeRecipes().subscribe((data: Recipe[]) => {
