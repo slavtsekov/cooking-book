@@ -29,6 +29,41 @@ export class RecipeEditComponent implements OnInit {
       });
   }
 
+  onSubmit() {
+    const { name, description, imagePath, ingredients } = this.recipeForm.value;
+    const recipe = new Recipe(name, description, imagePath, ingredients);
+    if (this.editMode) {
+      this.recipeService.updateRecipe(this.id, recipe);
+    } else {
+      this.recipeService.addRecipe(recipe);
+    }
+    this.navigateAway();
+  }
+
+  onAddIngredient() {
+    (<FormArray>this.recipeForm.get('ingredients')).push(
+      new FormGroup({
+        'name': new FormControl(null, Validators.required),
+        'amount': new FormControl(null, [
+          Validators.required,
+          Validators.pattern(/^[1-9]+[0-9]*$/)
+        ])
+      })
+    );
+  }
+
+  onCancel() {
+    this.navigateAway();
+  }
+
+  onDeleteIngredient(index: number) {
+    (<FormArray>this.recipeForm.get('ingredients')).removeAt(index);
+  }
+
+  getControls() {
+    return (<FormArray>this.recipeForm.get('ingredients')).controls;
+  }
+
   private initForm() {
     let recipeName = '';
     let recipeImagePath = '';
@@ -63,39 +98,8 @@ export class RecipeEditComponent implements OnInit {
     });
   }
 
-  onSubmit() {
-    const { name, description, imagePath, ingredients } = this.recipeForm.value;
-    const recipe = new Recipe(name, description, imagePath, ingredients);
-    if (this.editMode) {
-      this.recipeService.updateRecipe(this.id, recipe);
-    } else {
-      this.recipeService.addRecipe(recipe);
-    }
-    this.navigateAway();
-  }
-
-  onAddIngredient() {
-    (<FormArray>this.recipeForm.get('ingredients')).push(
-      new FormGroup({
-        'name': new FormControl(null, Validators.required),
-        'amount': new FormControl(null, [
-          Validators.required,
-          Validators.pattern(/^[1-9]+[0-9]*$/)
-        ])
-      })
-    );
-  }
-
-  onCancel() {
-    this.navigateAway();
-  }
-
   private navigateAway() {
     this.router.navigate(['../../', this.id], { relativeTo: this.route });
-  }
-
-  onDeleteIngredient(index: number) {
-    (<FormArray>this.recipeForm.get('ingredients')).removeAt(index);
   }
 
 }
