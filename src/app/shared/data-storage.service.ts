@@ -27,8 +27,8 @@ export class DataStorageService {
     getRecipes() {
         const token = this.authService.getToken();
 
-        return this.http.get('https://ng-cooking-book-37d0f.firebaseio.com/recipes.json?auth=' + token).pipe(
-            map((data: Recipe[]) => {
+        return this.http.get<Recipe[]>('https://ng-cooking-book-37d0f.firebaseio.com/recipes.json?auth=' + token).pipe(
+            map((data) => {
                 for (const recipe of data) {
                     if (!recipe['ingredients']) {
                         recipe['ingredients'] = [];
@@ -36,7 +36,7 @@ export class DataStorageService {
                 }
                 return data;
             })
-        ).subscribe((data: Recipe[]) => {
+        ).subscribe((data) => {
             this.recipeService.setRecipes(data);
         });
     }
@@ -51,8 +51,8 @@ export class DataStorageService {
     getShoppingList() {
         const token = this.authService.getToken();
 
-        return this.http.get('https://ng-cooking-book-37d0f.firebaseio.com/shopping-list.json?auth=' + token)
-            .subscribe((data: Ingredient[]) => {
+        return this.http.get<Ingredient[]>('https://ng-cooking-book-37d0f.firebaseio.com/shopping-list.json?auth=' + token)
+            .subscribe((data) => {
                 this.shoppingListService.setIngredients(data);
             });
     }
