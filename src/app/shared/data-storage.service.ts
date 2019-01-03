@@ -6,7 +6,6 @@ import { RecipeService } from '../recipes/recipe.service';
 import { Recipe } from '../recipes/recipe.model';
 import { ShoppingListService } from '../shopping-list/shopping-list.service';
 import { Ingredient } from './ingredient.model';
-import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 
@@ -14,24 +13,19 @@ export class DataStorageService {
     constructor(
         private http: HttpClient,
         private recipeService: RecipeService,
-        private shoppingListService: ShoppingListService,
-        private authService: AuthService
+        private shoppingListService: ShoppingListService
     ) {}
 
     storeRecipes() {
-        const token = this.authService.getToken();
         const recipesUrl = 'https://ng-cooking-book-37d0f.firebaseio.com/recipes.json';
-        const params = new HttpParams().set('auth', token);
 
-        return this.http.put(recipesUrl, this.recipeService.getRecipes(), { params });
+        return this.http.put(recipesUrl, this.recipeService.getRecipes());
     }
 
     getRecipes() {
-        const token = this.authService.getToken();
         const recipesUrl = 'https://ng-cooking-book-37d0f.firebaseio.com/recipes.json';
-        const params = new HttpParams().set('auth', token);
 
-        return this.http.get<Recipe[]>(recipesUrl, { params }).pipe(
+        return this.http.get<Recipe[]>(recipesUrl).pipe(
             map((data) => {
                 for (const recipe of data) {
                     if (!recipe['ingredients']) {
@@ -46,19 +40,15 @@ export class DataStorageService {
     }
 
     storeShoppingList() {
-        const token = this.authService.getToken();
         const shoppingListUrl = 'https://ng-cooking-book-37d0f.firebaseio.com/shopping-list.json';
-        const params = new HttpParams().set('auth', token);
 
-        return this.http.put(shoppingListUrl, this.shoppingListService.getIngredients(), { params });
+        return this.http.put(shoppingListUrl, this.shoppingListService.getIngredients());
     }
 
     getShoppingList() {
-        const token = this.authService.getToken();
         const shoppingListUrl = 'https://ng-cooking-book-37d0f.firebaseio.com/shopping-list.json';
-        const params = new HttpParams().set('auth', token);
 
-        return this.http.get<Ingredient[]>(shoppingListUrl, { params })
+        return this.http.get<Ingredient[]>(shoppingListUrl)
             .subscribe((data) => {
                 this.shoppingListService.setIngredients(data);
             });
