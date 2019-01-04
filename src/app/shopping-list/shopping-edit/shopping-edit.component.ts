@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { Ingredient } from '../../shared/ingredient.model';
 import { ShoppingListService } from '../shopping-list.service';
 import { AddIngredientAction } from '../store/shopping-list.actions';
+import { CookingBookStore } from 'src/app/shared/store.model';
 
 
 @Component({
@@ -20,7 +21,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   editedItemIndex: number;
   editedItem: Ingredient;
 
-  constructor(private shoppingListService: ShoppingListService, private store: Store<{shoppingList: {ingredients: Ingredient[]}}>) { }
+  constructor(private shoppingListService: ShoppingListService, private store: Store<CookingBookStore>) { }
 
   ngOnInit() {
     this.subscription = this.shoppingListService.startedEditing.subscribe((index: number) => {

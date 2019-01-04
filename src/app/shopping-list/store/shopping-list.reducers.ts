@@ -1,6 +1,7 @@
 import {
     ShoppingListActions,
-    ADD_INGREDIENT
+    ADD_INGREDIENT,
+    ADD_INGREDIENTS
 } from './shopping-list.actions';
 import { Ingredient } from '../../shared/ingredient.model';
 
@@ -17,6 +18,11 @@ export function shoppingListReducer(state = initialState, action: ShoppingListAc
             return {
                 ...state,
                 ingredients: [...state.ingredients, action.payload]
+            };
+        case ADD_INGREDIENTS:
+            return {
+                ...state,
+                ingredients: [...state.ingredients, ...action.payload]
             };
         default:
             return state;
