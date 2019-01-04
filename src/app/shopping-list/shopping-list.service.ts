@@ -14,17 +14,13 @@ export class ShoppingListService {
         this.ingredientsChanged.next(this.ingredients.slice());
     }
 
+    // remove when data service is edited
     getIngredients() {
         return this.ingredients.slice();
     }
 
     getIngredient(index: number) {
       return this.ingredients[index];
-    }
-
-    addIngredient(data: Ingredient) {
-        this.ingredients.push(data);
-        this.ingredientsChanged.next(this.ingredients.slice());
     }
 
     addIngredients(data: Ingredient[]) {
