@@ -8,7 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
 import { AuthModule } from './auth/auth.module';
 import { CoreModule } from './core/core.module';
-import { shoppingListReducer } from './shopping-list/store/shopping-list.reducer';
+import { reducers } from './store/app.reducer';
 
 @NgModule({
   declarations: [
@@ -21,7 +21,7 @@ import { shoppingListReducer } from './shopping-list/store/shopping-list.reducer
     AuthModule,
     CoreModule,
     AppRoutingModule,
-    StoreModule.forRoot({shoppingList: shoppingListReducer})
+    StoreModule.forRoot(reducers)
   ],
   bootstrap: [AppComponent]
 })
