@@ -6,8 +6,8 @@ import { Store } from '@ngrx/store';
 import { RecipeService } from '../recipes/recipe.service';
 import { Recipe } from '../recipes/recipe.model';
 import { Ingredient } from './ingredient.model';
-import { AppState } from '../shopping-list/store/shopping-list.reducer';
 import { SetIngredientsAction } from '../shopping-list/store/shopping-list.actions';
+import { AppState } from '../store/app.reducer';
 
 @Injectable()
 
