@@ -3,7 +3,9 @@ import {
     ADD_INGREDIENT,
     ADD_INGREDIENTS,
     UPDATE_INGREDIENT,
-    DELETE_INGREDIENT
+    DELETE_INGREDIENT,
+    START_EDIT,
+    STOP_EDIT
 } from './shopping-list.actions';
 import { Ingredient } from '../../shared/ingredient.model';
 
@@ -51,12 +53,29 @@ export function shoppingListReducer(state = initialState, action: ShoppingListAc
             });
             return {
                 ...state,
-                ingredients: updatedIngredients
+                ingredients: updatedIngredients,
+                editedIngredient: null,
+                editedIngredientIndex: -1
             };
         case DELETE_INGREDIENT:
             return {
                 ...state,
-                ingredients: state.ingredients.filter((item, i) => action.payload !== i)
+                ingredients: state.ingredients.filter((item, i) => action.payload !== i),
+                editedIngredient: null,
+                editedIngredientIndex: -1
+            };
+        case START_EDIT:
+            const editedIngredient = {...state.ingredients[action.payload]};
+            return {
+                ...state,
+                editedIngredient,
+                editedIngredientIndex: action.payload
+            };
+        case STOP_EDIT:
+            return {
+                ...state,
+                editedIngredient: null,
+                editedIngredientIndex: -1
             };
         default:
             return state;

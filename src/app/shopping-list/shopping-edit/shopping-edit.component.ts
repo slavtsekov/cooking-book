@@ -4,8 +4,7 @@ import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { Ingredient } from '../../shared/ingredient.model';
-import { ShoppingListService } from '../shopping-list.service';
-import { AddIngredientAction, DeleteIngredientAction, UpdateIngredientAction } from '../store/shopping-list.actions';
+import { AddIngredientAction, DeleteIngredientAction, UpdateIngredientAction, StopEditAction } from '../store/shopping-list.actions';
 import { AppState } from '../store/shopping-list.reducers';
 
 
@@ -18,21 +17,26 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   @ViewChild('shoppingEditForm') shoppingEditForm: NgForm;
   subscription: Subscription;
   editMode = false;
-  editedItemIndex: number;
   editedItem: Ingredient;
+  editedItemIndex: number;
 
-  constructor(private shoppingListService: ShoppingListService, private store: Store<AppState>) { }
+  constructor(private store: Store<AppState>) { }
 
   ngOnInit() {
-    this.subscription = this.shoppingListService.startedEditing.subscribe((index: number) => {
-      this.editedItemIndex = index;
-      this.editMode = true;
-      this.editedItem = this.shoppingListService.getIngredient(index);
-      this.shoppingEditForm.setValue({
-        name: this.editedItem.name,
-        amount: this.editedItem.amount
+    this.subscription = this.store.select('shoppingList')
+      .subscribe((data) => {
+        if (data.editedIngredientIndex > -1) {
+          this.editedItem = data.editedIngredient;
+          this.editedItemIndex = data.editedIngredientIndex;
+          this.editMode = true;
+          this.shoppingEditForm.setValue({
+            name: this.editedItem.name,
+            amount: this.editedItem.amount
+          });
+        } else {
+          this.editMode = false;
+        }
       });
-    });
   }
 
   onSubmit(form: NgForm) {
@@ -64,6 +68,7 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.store.dispatch(new StopEditAction());
     this.subscription.unsubscribe();
   }
 
