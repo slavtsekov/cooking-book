@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { Ingredient } from '../shared/ingredient.model';
-import { AppState } from './store/shopping-list.reducers';
+import { AppState } from './store/shopping-list.reducer';
 import { StartEditAction } from './store/shopping-list.actions';
 
 @Component({
