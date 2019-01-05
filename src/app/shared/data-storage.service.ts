@@ -5,7 +5,6 @@ import { Store } from '@ngrx/store';
 
 import { RecipeService } from '../recipes/recipe.service';
 import { Recipe } from '../recipes/recipe.model';
-import { ShoppingListService } from '../shopping-list/shopping-list.service';
 import { Ingredient } from './ingredient.model';
 import { AppState } from '../shopping-list/store/shopping-list.reducers';
 import { SetIngredientsAction } from '../shopping-list/store/shopping-list.actions';
@@ -16,7 +15,6 @@ export class DataStorageService {
     constructor(
         private http: HttpClient,
         private recipeService: RecipeService,
-        private shoppingListService: ShoppingListService,
         private store: Store<AppState>
     ) {}
 

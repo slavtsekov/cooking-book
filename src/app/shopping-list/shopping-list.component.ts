@@ -3,7 +3,6 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { Ingredient } from '../shared/ingredient.model';
-import { ShoppingListService } from './shopping-list.service';
 import { AppState } from './store/shopping-list.reducers';
 import { StartEditAction } from './store/shopping-list.actions';
 
@@ -16,7 +15,6 @@ export class ShoppingListComponent implements OnInit {
   shoppingListObservable: Observable<{ingredients: Ingredient[]}>;
 
   constructor(
-    private shoppingListService: ShoppingListService,
     private store: Store<AppState>
   ) { }
 
