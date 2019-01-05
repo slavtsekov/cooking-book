@@ -4,6 +4,7 @@ import { Ingredient } from '../../shared/ingredient.model';
 
 export const ADD_INGREDIENT = 'ADD_INGREDIENT';
 export const ADD_INGREDIENTS = 'ADD_INGREDIENTS';
+export const SET_INGREDIENTS = 'SET_INGREDIENTS';
 export const UPDATE_INGREDIENT = 'UPDATE_INGREDIENT';
 export const DELETE_INGREDIENT = 'DELETE_INGREDIENT';
 export const START_EDIT = 'START_EDIT';
@@ -17,6 +18,12 @@ export class AddIngredientAction implements Action {
 
 export class AddIngredientsAction implements Action {
     readonly type = ADD_INGREDIENTS;
+
+    constructor(public payload: Ingredient[]) {}
+}
+
+export class SetIngredientsAction implements Action {
+    readonly type = SET_INGREDIENTS;
 
     constructor(public payload: Ingredient[]) {}
 }
@@ -46,6 +53,7 @@ export class StopEditAction implements Action {
 export type ShoppingListActions =
     AddIngredientAction |
     AddIngredientsAction |
+    SetIngredientsAction |
     UpdateIngredientAction |
     DeleteIngredientAction |
     StartEditAction |

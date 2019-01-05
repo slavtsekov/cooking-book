@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
 
 import { RecipeService } from '../recipes/recipe.service';
 import { Recipe } from '../recipes/recipe.model';
 import { ShoppingListService } from '../shopping-list/shopping-list.service';
 import { Ingredient } from './ingredient.model';
+import { AppState } from '../shopping-list/store/shopping-list.reducers';
+import { SetIngredientsAction } from '../shopping-list/store/shopping-list.actions';
 
 @Injectable()
 
@@ -13,7 +16,8 @@ export class DataStorageService {
     constructor(
         private http: HttpClient,
         private recipeService: RecipeService,
-        private shoppingListService: ShoppingListService
+        private shoppingListService: ShoppingListService,
+        private store: Store<AppState>
     ) {}
 
     storeRecipes() {
@@ -41,8 +45,11 @@ export class DataStorageService {
 
     storeShoppingList() {
         const shoppingListUrl = 'https://ng-cooking-book-37d0f.firebaseio.com/shopping-list.json';
-
-        return this.http.put(shoppingListUrl, this.shoppingListService.getIngredients());
+        let httpObservable = null;
+        this.store.select('shoppingList').subscribe((data) => {
+            httpObservable = this.http.put(shoppingListUrl, data.ingredients);
+        });
+        return httpObservable;
     }
 
     getShoppingList() {
@@ -50,7 +57,7 @@ export class DataStorageService {
 
         return this.http.get<Ingredient[]>(shoppingListUrl)
             .subscribe((data) => {
-                this.shoppingListService.setIngredients(data);
+                this.store.dispatch(new SetIngredientsAction(data));
             });
     }
 }

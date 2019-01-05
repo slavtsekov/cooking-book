@@ -5,7 +5,8 @@ import {
     UPDATE_INGREDIENT,
     DELETE_INGREDIENT,
     START_EDIT,
-    STOP_EDIT
+    STOP_EDIT,
+    SET_INGREDIENTS
 } from './shopping-list.actions';
 import { Ingredient } from '../../shared/ingredient.model';
 
@@ -39,6 +40,11 @@ export function shoppingListReducer(state = initialState, action: ShoppingListAc
             return {
                 ...state,
                 ingredients: [...state.ingredients, ...action.payload]
+            };
+        case SET_INGREDIENTS:
+            return {
+                ...state,
+                ingredients: action.payload
             };
         case UPDATE_INGREDIENT:
             const updatedIngredients = state.ingredients.map((item, i) => {
