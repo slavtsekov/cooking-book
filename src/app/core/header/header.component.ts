@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { DataStorageService } from '../../shared/data-storage.service';
 import { Recipe } from '../../recipes/recipe.model';
 import { Ingredient } from '../../shared/ingredient.model';
-import { AuthService } from '../../auth/auth.service';
 import { AppState } from 'src/app/store/app.reducer';
 import * as fromAuth from '../../auth/store/auth.reducer';
 import { TryLogout } from 'src/app/auth/store/auth.actions';
