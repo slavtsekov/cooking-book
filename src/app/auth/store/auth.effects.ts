@@ -4,7 +4,15 @@ import { map, switchMap, mergeMap } from 'rxjs/operators';
 import { from } from 'rxjs';
 import * as firebase from 'firebase';
 
-import { TRY_SIGNUP, TrySignup, SIGNUP, SET_TOKEN } from './auth.actions';
+import {
+    TRY_SIGNUP,
+    SIGNUP,
+    SET_TOKEN,
+    TRY_SIGNIN,
+    SIGNIN,
+    TrySignup,
+    TrySignin
+} from './auth.actions';
 
 
 @Injectable()
@@ -23,6 +31,29 @@ export class AuthEffects {
             return [
                 {
                     type: SIGNUP
+                },
+                {
+                    type: SET_TOKEN,
+                    payload: token
+                }
+            ];
+        })
+    );
+
+    @Effect()
+    authSignin = this.actions$.pipe(
+        ofType(TRY_SIGNIN),
+        map((action: TrySignin) => action.payload),
+        switchMap((authData: {username: string, password: string}) => {
+            return from(firebase.auth().signInWithEmailAndPassword(authData.username, authData.password));
+        }),
+        switchMap(() => {
+            return from(firebase.auth().currentUser.getIdToken());
+        }),
+        mergeMap((token: string) => {
+            return [
+                {
+                    type: SIGNIN
                 },
                 {
                     type: SET_TOKEN,

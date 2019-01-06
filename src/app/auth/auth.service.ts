@@ -10,21 +10,6 @@ import { SignupAction, SigninAction, SetTokenAction, LogoutAction } from './stor
 export class AuthService {
     constructor(private router: Router, private store: Store<AppState>) {}
 
-    signinUser(email: string, password: string) {
-        firebase.auth().signInWithEmailAndPassword(email, password)
-            .then(() => {
-                this.store.dispatch(new SigninAction());
-                this.router.navigate(['/']);
-                firebase.auth().currentUser.getIdToken()
-                    .then(
-                        (token: string) => {
-                            this.store.dispatch(new SetTokenAction(token));
-                        }
-                    );
-            })
-            .catch(error => console.error(error));
-    }
-
     logout() {
         firebase.auth().signOut();
         this.store.dispatch(new LogoutAction());
