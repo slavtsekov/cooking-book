@@ -9,10 +9,4 @@ import { SignupAction, SigninAction, SetTokenAction, LogoutAction } from './stor
 @Injectable()
 export class AuthService {
     constructor(private router: Router, private store: Store<AppState>) {}
-
-    logout() {
-        firebase.auth().signOut();
-        this.store.dispatch(new LogoutAction());
-        this.router.navigate(['/']);
-    }
 }

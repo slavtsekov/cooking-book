@@ -8,6 +8,7 @@ import { Ingredient } from '../../shared/ingredient.model';
 import { AuthService } from '../../auth/auth.service';
 import { AppState } from 'src/app/store/app.reducer';
 import * as fromAuth from '../../auth/store/auth.reducer';
+import { TryLogout } from 'src/app/auth/store/auth.actions';
 
 @Component({
   selector: 'app-header',
@@ -17,7 +18,7 @@ import * as fromAuth from '../../auth/store/auth.reducer';
 export class HeaderComponent implements OnInit {
   authState: Observable<fromAuth.State>;
 
-  constructor(private dataStorageService: DataStorageService, private authService: AuthService, private store: Store<AppState>) {}
+  constructor(private dataStorageService: DataStorageService, private store: Store<AppState>) {}
 
   ngOnInit() {
     this.authState = this.store.select('auth');
@@ -38,6 +39,6 @@ export class HeaderComponent implements OnInit {
   }
 
   onLogout() {
-    this.authService.logout();
+    this.store.dispatch(new TryLogout());
   }
 }

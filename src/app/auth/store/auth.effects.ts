@@ -12,7 +12,9 @@ import {
     TRY_SIGNIN,
     SIGNIN,
     TrySignup,
-    TrySignin
+    TrySignin,
+    LOGOUT,
+    TRY_LOGOUT
 } from './auth.actions';
 
 
@@ -63,6 +65,19 @@ export class AuthEffects {
                     payload: token
                 }
             ];
+        })
+    );
+
+    @Effect()
+    authLogout = this.actions$.pipe(
+        ofType(TRY_LOGOUT),
+        map(() => {
+            firebase.auth().signOut();
+            this.router.navigate(['/']);
+
+            return {
+                type: LOGOUT
+            };
         })
     );
 
