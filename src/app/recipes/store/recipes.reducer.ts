@@ -1,6 +1,6 @@
 import { Recipe } from '../recipe.model';
 import { Ingredient } from '../../shared/ingredient.model';
-import { RecipesActions } from './recipes.actions';
+import { RecipesActions, SET_RECIPES, ADD_RECIPE, UPDATE_RECIPE, DELETE_RECIPE } from './recipes.actions';
 
 export interface FeatureState {
     recipes: State;
@@ -33,6 +33,36 @@ const initialState: State = {
 
 export function recipesReducer(state = initialState, action: RecipesActions) {
     switch (action.type) {
+        case SET_RECIPES:
+            return {
+                ...state,
+                recipes: [...action.payload]
+            };
+        case ADD_RECIPE:
+            return {
+                ...state,
+                recipes: [...state.recipes, action.payload]
+            };
+        case UPDATE_RECIPE:
+            const updatedRecipes = state.recipes.map((item, i) => {
+                if (i === action.payload.index) {
+                    return {
+                        ...item,
+                        ...action.payload.updated
+                    };
+                }
+
+                return item;
+            });
+            return {
+                ...state,
+                recipes: updatedRecipes
+            };
+        case DELETE_RECIPE:
+            return {
+                ...state,
+                recipes: state.recipes.filter((item, i) => action.payload !== i)
+            };
         default:
             return state;
     }
