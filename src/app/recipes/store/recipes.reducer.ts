@@ -1,5 +1,6 @@
 import { Recipe } from '../recipe.model';
 import { Ingredient } from '../../shared/ingredient.model';
+import { RecipesActions } from './recipes.actions';
 
 export interface FeatureState {
     recipes: State;
@@ -30,7 +31,7 @@ const initialState: State = {
     ]
 };
 
-export function recipesReducer(state = initialState, action) {
+export function recipesReducer(state = initialState, action: RecipesActions) {
     switch (action.type) {
         default:
             return state;
