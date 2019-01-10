@@ -8,7 +8,7 @@ import { Ingredient } from '../../shared/ingredient.model';
 import { AppState } from '../../store/app.reducer';
 import * as fromAuth from '../../auth/store/auth.reducer';
 import { TryLogout } from '../../auth/store/auth.actions';
-import { FetchRecipes } from '../../recipes/store/recipes.actions';
+import { FetchRecipes, StoreRecipes } from '../../recipes/store/recipes.actions';
 
 @Component({
   selector: 'app-header',
@@ -25,9 +25,7 @@ export class HeaderComponent implements OnInit {
   }
 
   onSaveData() {
-    this.dataStorageService.storeRecipes().subscribe((data: Recipe[]) => {
-      console.log(data);
-    });
+    this.store.dispatch(new StoreRecipes());
     this.dataStorageService.storeShoppingList().subscribe((data: Ingredient[]) => {
       console.log(data);
     });
