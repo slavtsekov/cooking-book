@@ -14,6 +14,7 @@ import { CoreModule } from './core/core.module';
 import { reducers } from './store/app.reducer';
 import { AuthEffects } from './auth/store/auth.effects';
 import { environment } from '../environments/environment';
+import { ShoppingListModule } from './shopping-list/shopping-list.module';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { environment } from '../environments/environment';
     SharedModule,
     AuthModule,
     CoreModule,
+    ShoppingListModule,
     AppRoutingModule,
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot([AuthEffects]),

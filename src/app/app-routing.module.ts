@@ -3,6 +3,7 @@ import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 
 import { HomeComponent } from './core/home/home.component';
 import { AuthGuard } from './auth/auth-guard.service';
+import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 
 const appRoutes: Routes = [
   {
@@ -16,8 +17,7 @@ const appRoutes: Routes = [
   },
   {
     path: 'shopping-list',
-    loadChildren: './shopping-list/shopping-list.module#ShoppingListModule',
-    canLoad: [AuthGuard]
+    component: ShoppingListComponent
   }
 ];
 
