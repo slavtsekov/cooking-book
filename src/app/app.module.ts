@@ -13,6 +13,7 @@ import { AuthModule } from './auth/auth.module';
 import { CoreModule } from './core/core.module';
 import { reducers } from './store/app.reducer';
 import { AuthEffects } from './auth/store/auth.effects';
+import { ShoppingListEffects } from './shopping-list/store/shopping-list.effects';
 import { environment } from '../environments/environment';
 import { ShoppingListModule } from './shopping-list/shopping-list.module';
 
@@ -29,7 +30,7 @@ import { ShoppingListModule } from './shopping-list/shopping-list.module';
     ShoppingListModule,
     AppRoutingModule,
     StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([AuthEffects]),
+    EffectsModule.forRoot([AuthEffects, ShoppingListEffects]),
     StoreRouterConnectingModule,
     !environment.production ? StoreDevtoolsModule.instrument() : []
   ],
