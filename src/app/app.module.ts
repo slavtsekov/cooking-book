@@ -13,7 +13,7 @@ import { CoreModule } from './core/core.module';
     AppComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({appId: 'cooking-book'}),
     HttpClientModule,
     SharedModule,
     AuthModule,
